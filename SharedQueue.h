@@ -1,4 +1,3 @@
-
 #ifndef SHAREDQUEUE_H
 #define SHAREDQUEUE_H
 
@@ -13,11 +12,12 @@ struct QueueEntry {
   int number;
 };
 
-struct QueueItem {
+struct QueueItem {  // For ESP-NOW communication
   char uid[20];
   char timestamp[25];
   int number;
   bool removeFromQueue;
+  bool addToQueue;
 };
 
 class SharedQueue {
@@ -31,6 +31,12 @@ public:
   void removeByUID(const String& uid);
   bool exists(const String& uid);
   int getOrAssignPermanentNumber(const String& uid, const DateTime& now);
+
+  bool empty() const { return queue.empty(); }
+  QueueEntry& front() { return queue.front(); }  // ✅ Use QueueEntry
+  void pop() { queue.erase(queue.begin()); }
+  void push(const QueueEntry& item) { queue.push_back(item); }  // ✅ Use QueueEntry
+
   std::vector<QueueEntry>& getQueue();
 
 private:
