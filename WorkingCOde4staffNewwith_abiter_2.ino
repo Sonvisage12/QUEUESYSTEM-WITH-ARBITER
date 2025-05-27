@@ -28,9 +28,10 @@ int patientNum = 0;
 QueueItem currentPatient;
 
 uint8_t displayMAC[] = {0xA4, 0xCF, 0x12, 0xF1, 0x6B, 0xA5};
-uint8_t peer3[] = {0x08, 0xD1, 0xF9, 0xD7, 0x50, 0x98};
+//uint8_t displayMAC[] = {0x68, 0xC6, 0x3A, 0xFC, 0x61, 0x3E};
+uint8_t peer1[] = {0x08, 0xD1, 0xF9, 0xD7, 0x50, 0x98};
 uint8_t peer2[] = {0x30, 0xC6, 0xF7, 0x44, 0x1D, 0x24};
-uint8_t peer1[] = {0x78, 0x42, 0x1C, 0x6C, 0xE4, 0x9C};
+uint8_t peer3[] = {0x78, 0x42, 0x1C, 0x6C, 0xE4, 0x9C};
 std::vector<uint8_t*> arrivalNodes = { peer1, peer2, peer3 };
 
 int currentArrivalIndex = 0;
@@ -94,6 +95,7 @@ void onDataRecv(const esp_now_recv_info_t *info, const uint8_t *data, int len) {
     waitingForPatient = false;
     patientReady = (patientNum != 0);
     if (patientNum == 0) {
+      esp_now_send(displayMAC, (uint8_t*)&patientNum, sizeof(patientNum));
       Serial.println("⚠️ Queue empty. No patient assigned.");
     }
   }
