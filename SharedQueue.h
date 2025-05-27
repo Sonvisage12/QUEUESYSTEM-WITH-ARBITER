@@ -12,8 +12,12 @@ struct QueueEntry {
   int number;
 };
 
+
+
+
 struct QueueItem {  // For ESP-NOW communication
   char uid[20];
+  char type[10]; 
   char timestamp[25];
   int number;
   bool removeFromQueue;
@@ -38,6 +42,9 @@ public:
   void push(const QueueEntry& item) { queue.push_back(item); }  // ✅ Use QueueEntry
 
   std::vector<QueueEntry>& getQueue();
+  void sortQueue();  // 🟢 Make sortQueue public here
+
+
 
 private:
   std::vector<QueueEntry> queue;
@@ -45,7 +52,7 @@ private:
   String namespaceStr;
   int counter;
 
-  void sortQueue();
+ // void sortQueue();
 };
 
 #endif
